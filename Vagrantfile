@@ -74,14 +74,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # chef.add_role("drupal_dev")
     # chef.add_recipe "drupal::drupal_apps"
 
-    chef.add_recipe 'drupal::example'
+    # chef.add_recipe 'drupal::example'
 
     # we set these attrbutes, and in particular the mysql root passwors
     # as in chef solo we don't have access to a chef server
     chef.json = {
             "www_root" => '/vagrant/public',
             "hosts" => {
-            "localhost_aliases" => ["drupal.vbox.local", "elife.vbox.local"]#, "drupal.vbox.local"]
+            # "localhost_aliases" => ["drupal.vbox.local", "elife.vbox.local"]#, "drupal.vbox.local"]
+            "localhost_aliases" => ["elife.vbox.local"]
             },
             "mysql" => {
                 "server_root_password" => "root",

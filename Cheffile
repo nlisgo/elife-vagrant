@@ -16,6 +16,11 @@ cookbook 'varnish'
 cookbook 'hosts'
 cookbook 'phpmyadmin'
 
+# make diagnosis easier
+cookbook 'vim'
+cookbook 'curl'
+
+
 # elife drupal module git repos, and highwire drupal base site
 cookbook 'drupal-site-jnl-elife-cookbook',
         :git=> 'git@github.com:elifesciences/drupal-site-jnl-elife-cookbook.git',

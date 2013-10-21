@@ -3,7 +3,7 @@
 
 This repo contains the provisioning information for setting up a dev environment for building a local copy of [drupal-site-jnl-elife](https://github.com/elifesciences/drupal-site-jnl-elife).
 
-It is being built on top of the [drupal - vagrant project](https://drupal.org/project/vagrant), with an attempt to move the configuration to v2 of the vagrant API, and using librarian and chef for managing cookbooks.
+It is being built on top of the [drupal - vagrant project](https://drupal.org/project/vagrant), with the configuration moved to v2 of the vagrant API, and using librarian and chef for managing cookbooks.
 
 
 # Setup

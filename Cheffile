@@ -19,12 +19,12 @@ cookbook 'phpmyadmin'
 # elife drupal module git repos, and highwire drupal base site
 cookbook 'drupal-site-jnl-elife-cookbook',
         :git=> 'git@github.com:elifesciences/drupal-site-jnl-elife-cookbook.git',
-	:ref=> 'dev'
+        :ref=> 'ruth-vagrant-fixes'
 
 # elife modified cookbooks for drupal installation
 cookbook 'drupal',
         :git=> 'git@github.com:elifesciences/elife-drupal-cookbook.git',
-	:ref=> 'working'
+        :ref=> 'ruth-vagrant-fixes'
 
 cookbook 'drush',
         :git=> 'git@github.com:elifesciences/elife-drush-cookbook.git'

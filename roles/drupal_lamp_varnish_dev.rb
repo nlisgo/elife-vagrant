@@ -9,6 +9,7 @@ run_list(
   #"role[memcached]",
   "role[mysql_server]",
   #"role[varnish_frontend]",
-  "recipe[drupal::drupal_apps]"
+  "recipe[drupal::drupal_apps]",
+  "recipe[drush::head]",
 )
 # TODO Add recipe to create dev sites via Drush make.

@@ -58,8 +58,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.roles_path = ["roles"]
 
     # this installs most of the infrastrucutre required to support a drupal instance
-    chef.add_recipe 'apt' # add this so we have updated packages available
+    chef.add_recipe "apt" # add this so we have updated packages available
     chef.add_recipe "git"
+    # chef.add_recipe "openvpn"  # vpn to highwire needed, but using tunnelblick on mac host instead.
 
     # This role represents our default Drupal development stack.
     chef.add_role   "drupal_lamp_varnish_dev"
@@ -70,10 +71,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.json = {
       "git_root" => "/opt/public",
       "www_root" => "/opt/public/drupal-webroot",
-	    "hosts" => {
-		    "localhost_aliases" => ["elife.vbox.local"]
-	    },
-	    "mysql" => {
+      "hosts" => {
+        "localhost_aliases" => ["elife.vbox.local"]  # used in drupal_apps recipe
+      },
+      "drupal" => {
+        "site_name" => "elife.vbox.local",
+        "shared_folder" => "/vagrant/public",
+        "drupal_sqlfile" => "jnl-elife.sql",         # expects .sql.gz file in shared_folder
+      },
+      "mysql" => {
         "server_database" => "jnl_elife",
         "server_root_userid" => "admin",
         "server_root_password" => "admin",

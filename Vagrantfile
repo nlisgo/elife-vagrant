@@ -76,12 +76,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       "www_root" => "/opt/public/drupal-webroot", # location of drupal webroot. Not really configurable!
                                                   # because dir is git_root and name is the drupal-webroot git
                                                   # repo folder name.
-      "hosts" => {
-        "localhost_aliases" => ["elife.vbox.local"]  # used in drupal_apps recipe
-      },
       "drupal" => {
         "site_name" => "elife.vbox.local",        # a single name by which the server is known
-        "site_ports" => [  "80", "8080" ],        # list of ports to listen on, e.g. [ "80", "8080"]
+        "site_ports" => [ "80", "8080" ],         # list of ports to listen on, e.g. [ "80", "8080"]
+        "site_aliases" => [],                     # used in web_app recipe, alternate names for server
         "shared_folder" => "/vagrant/public",     # in-VM folder used to mount .../elife-vagrant/public
         "drupal_sqlfile" => "jnl-elife.sql",      # Base filename of SQL database dump. gzip compressed as ".gz" 
       },

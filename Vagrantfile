@@ -72,23 +72,26 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # we set these attrbutes, and in particular the mysql root passwors
     # as in chef solo we don't have access to a chef server
     chef.json = {
-      "git_root" => "/opt/public",
-      "www_root" => "/opt/public/drupal-webroot",
+      "git_root" => "/opt/public",                # directory containing webroot in which drupal repos fetched
+      "www_root" => "/opt/public/drupal-webroot", # location of drupal webroot. Not really configurable!
+                                                  # because dir is git_root and name is the drupal-webroot git
+                                                  # repo folder name.
       "hosts" => {
         "localhost_aliases" => ["elife.vbox.local"]  # used in drupal_apps recipe
       },
       "drupal" => {
-        "site_name" => "elife.vbox.local",
-        "shared_folder" => "/vagrant/public",
-        "drupal_sqlfile" => "jnl-elife.sql",         # expects .sql.gz file in shared_folder
+        "site_name" => "elife.vbox.local",        # a single name by which the server is known
+        "site_ports" => [  "80", "8080" ],        # list of ports to listen on, e.g. [ "80", "8080"]
+        "shared_folder" => "/vagrant/public",     # in-VM folder used to mount .../elife-vagrant/public
+        "drupal_sqlfile" => "jnl-elife.sql",      # Base filename of SQL database dump. gzip compressed as ".gz" 
       },
       "mysql" => {
-        "server_database" => "jnl_elife",
-        "server_root_userid" => "admin",
-        "server_root_password" => "admin",
-		    "server_repl_password" => "",
-		    "server_debian_password" => "root",
-		    "elife_user_password" => "elife"
+        "server_database" => "jnl_elife",         # the name of the database. Must match settings.php
+        "server_root_userid" => "admin",          # database admin userid
+        "server_root_password" => "admin",        # database admin password
+		    "server_repl_password" => "",             # ... not used
+		    "server_debian_password" => "root",       # ... not used
+		    "elife_user_password" => "elife"          # ... not used
 	    }
     }   
 

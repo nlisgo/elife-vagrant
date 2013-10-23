@@ -66,6 +66,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.add_role   "drupal_lamp_varnish_dev"
     chef.add_recipe "drupal-site-jnl-elife-cookbook"
 
+    # Pulled out so it's obvious: disable content delivery as it won't work for non-live sites
+    chef.add_recipe "drupal-site-jnl-elife-cookbook::disable-cdn"
+
     # we set these attrbutes, and in particular the mysql root passwors
     # as in chef solo we don't have access to a chef server
     chef.json = {

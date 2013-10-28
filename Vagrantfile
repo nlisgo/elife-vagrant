@@ -46,8 +46,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # aws.access_key_id = ENV['AWS_SECRET'] 
     # aws.secret_access_key = ENV['AWS_KEY']
 
-    aws.keypair_name = "ianm-working"
-    override.ssh.private_key_path = "~/.ssh/ianm-working.pem"
+    aws.keypair_name = "ruth"
+    override.ssh.private_key_path = "~/.ssh/ruth.pem"
 
     aws.instance_type = "t1.micro"
     aws.security_groups = "default"
@@ -123,10 +123,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         "server_database" => "jnl_elife",         # the name of the database. Must match settings.php
         "server_root_userid" => "admin",          # database admin userid
         "server_root_password" => "admin",        # database admin password
-		    "server_repl_password" => "",             # ... not used
-		    "server_debian_password" => "root",       # ... not used
-		    "elife_user_password" => "elife",         # ... not used
-	    }
+        "server_repl_password" => "",             # ... not used
+        "server_debian_password" => "root",       # ... not used
+        "elife_user_password" => "elife",         # ... not used
+      },
+      "elife-jnl" => {
+        "hiwire_rev" => "7.x-1.x-dev",            # revision of highwire module to fetch
+        "webroot_rev" => "7.x-1.x-dev",           # revision of webroot module to fetch
+      }
     }   
 
   end

@@ -4,13 +4,13 @@ cmd="$1"
 
 case $cmd in
 
-	"install")
+	"preinstall")
 		vagrant box add pre64-elife-rb1.9-chef-11 http://cdn.elifesciences.org/vm/pre64-elife-rb1.9-chef-11.box
 		( \
-		cd .. \
-		git clone git@github.com:elifesciences/drupal-highwire.git \
-		git clone git@github.com:elifesciences/drupal-site-jnl-elife.git \
-		) \
+		cd .. ;\
+		git clone git@github.com:elifesciences/drupal-highwire.git ;\
+		git clone git@github.com:elifesciences/drupal-site-jnl-elife.git ;\
+		) ;\
 		rm -rf Cheffile.lock cookbooks tmp
 		;;
 
@@ -20,6 +20,7 @@ case $cmd in
 
 	"clean")
 		rm -rf Cheffile.lock cookbooks tmp
+		echo Cleaned.
 		;;
 
 	"provision")

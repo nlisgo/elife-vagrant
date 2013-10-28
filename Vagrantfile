@@ -46,8 +46,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # aws.access_key_id = ENV['AWS_SECRET'] 
     # aws.secret_access_key = ENV['AWS_KEY']
 
-    aws.keypair_name = "ruth"
-    override.ssh.private_key_path = "~/.ssh/ruth.pem"
+    aws.keypair_name = "ianm-working"
+    override.ssh.private_key_path = "~/.ssh/ianm-working.pem"
 
     aws.instance_type = "t1.micro"
     aws.security_groups = "default"

@@ -32,12 +32,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Example for VirtualBox:
   #
   config.vm.provider :virtualbox do |vb|
-  #   # Don't boot with headless mode
-  #   vb.gui = true
-  #
-  #   # Use VBoxManage to customize the VM. For example to change memory:
-     vb.customize ["modifyvm", :id, "--memory", "1024"]
-     vb.customize ["modifyvm", :id, "--vram", "12"]
+    # Boot in headless mode
+    vb.gui = false
+    #
+    # # Use VBoxManage to customize the VM. For example to change memory:
+    vb.customize ["modifyvm", :id, "--memory", "1024"]
+    vb.customize ["modifyvm", :id, "--vram", "12"]
   end
 
   # Create a private network, which allows host-only access to the machine
@@ -47,24 +47,23 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision "chef_solo" do |chef|
 
-    # the receipe that we are basing this build off of
-    # installs the following: 
-    # - varnish 
-    # - memcaced
-    # as this is for a purely dev install, we are going to ignore these for now. 
-
     # define where things have been collected together by librarian-chef
     chef.cookbooks_path = ["cookbooks"]
     chef.roles_path = ["roles"]
+
+    # Set this to :debug if you want more debugging info, else :info or :warn
+    chef.log_level = :info
 
     # this installs most of the infrastrucutre required to support a drupal instance
     chef.add_recipe "apt" # add this so we have updated packages available
     chef.add_recipe "git"
     # chef.add_recipe "openvpn"  # vpn to highwire needed, but using tunnelblick on mac host instead.
 
-    # This role represents our default Drupal development stack.
-    chef.add_role   "drupal_lamp_varnish_dev"
-    chef.add_recipe "drupal-site-jnl-elife-cookbook"
+    # This represents our default Drupal development stack.
+    chef.add_recipe "elife-drupal-cookbook::drupal_lamp_dev"
+
+    # site and SQL files for our Drupal site
+    chef.add_recipe "drupal-site-jnl-elife-cookbook::default"
 
     # Pulled out so it's obvious: disable content delivery as it won't work for non-live sites
     chef.add_recipe "drupal-site-jnl-elife-cookbook::disable-cdn"
@@ -76,9 +75,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       "www_root" => "/opt/public/drupal-webroot", # location of drupal webroot. Not really configurable!
                                                   # because dir is git_root and name is the drupal-webroot git
                                                   # repo folder name.
+      "apache" => {
+        "listen_ports" => [ "80", "8080" ],         # list of ports to listen on, e.g. [ "80", "8080"]
+      },
       "drupal" => {
         "site_name" => "elife.vbox.local",        # a single name by which the server is known
-        "site_ports" => [ "80", "8080" ],         # list of ports to listen on, e.g. [ "80", "8080"]
         "site_aliases" => [],                     # used in web_app recipe, alternate names for server
         "shared_folder" => "/vagrant/public",     # in-VM folder used to mount .../elife-vagrant/public
         "drupal_sqlfile" => "jnl-elife.sql",      # Base filename of SQL database dump. gzip compressed as ".gz" 
@@ -89,7 +90,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         "server_root_password" => "admin",        # database admin password
 		    "server_repl_password" => "",             # ... not used
 		    "server_debian_password" => "root",       # ... not used
-		    "elife_user_password" => "elife"          # ... not used
+		    "elife_user_password" => "elife",         # ... not used
 	    }
     }   
 

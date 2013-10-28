@@ -17,7 +17,7 @@ cookbook 'hosts'
 cookbook 'phpmyadmin'
 cookbook 'openvpn'
 
-#cookbook 'opscode-cookbooks-openvpn',
+#cookbook 'openvpn',
 #        :git=> 'git@github.com:opscode-cookbooks/openvpn.git',
 
 # elife drupal module git repos, and highwire drupal base site
@@ -26,15 +26,12 @@ cookbook 'drupal-site-jnl-elife-cookbook',
         :ref=> 'ruth-vagrant-fixes'
 
 # elife modified cookbooks for drupal installation
-cookbook 'drupal',
+cookbook 'elife-drupal-cookbook',
         :git=> 'git@github.com:elifesciences/elife-drupal-cookbook.git',
         :ref=> 'ruth-vagrant-fixes'
 
-cookbook 'drush',
+cookbook 'elife-drush-cookbook',
         :git=> 'git@github.com:elifesciences/elife-drush-cookbook.git'
-
-cookbook 'drush_make',
-        :git=> 'git@github.com:elifesciences/elife-drush-make-cookbook.git'
 
 # - hosts
 # - phpmyadmin

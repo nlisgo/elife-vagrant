@@ -27,6 +27,41 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "pre64-elife-rb1.9-chef-11"
 
+  # Every Vagrant virtual environment requires a box to build off of.
+  config.vm.box = "dummy"
+
+  # Install latest version of Chef
+  config.omnibus.chef_version = :latest
+
+  config.vm.provider :aws do |aws, override| 
+
+    override.vm.box = "dummy"
+
+    aws.access_key_id = "AKIAIEZCVFDGHB2QOVVA" 
+    aws.secret_access_key = "faYcyTxTWb8vbusQdoSSaDh3StdTeK8J8/al+Rjp"
+
+    # You cannot pass any parameter to vagrant. The only way is to use environment variables
+    # MY_VAR='my value' vagrant up
+    # And use ENV['MY_VAR'] in recipe.
+    # aws.access_key_id = ENV['AWS_SECRET'] 
+    # aws.secret_access_key = ENV['AWS_KEY']
+
+    aws.keypair_name = "ianm-working"
+    override.ssh.private_key_path = "~/.ssh/ianm-working.pem"
+
+    aws.instance_type = "t1.micro"
+    aws.security_groups = "default"
+
+    aws.ami = "ami-de0d9eb7" 
+    aws.region = "us-east-1" 
+
+    override.ssh.username = "ubuntu" 
+    aws.tags = {
+      'Name' => 'Elife Vagrant',
+     }
+
+  end 
+
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:

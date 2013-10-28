@@ -27,9 +27,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "pre64-elife-rb1.9-chef-11"
 
-  # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "dummy"
-
   # Install latest version of Chef
   config.omnibus.chef_version = :latest
 
@@ -127,7 +124,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         "server_debian_password" => "root",       # ... not used
         "elife_user_password" => "elife",         # ... not used
       },
-      "elife-jnl" => {
+      "elifejnl" => {
         "hiwire_rev" => "7.x-1.x-dev",            # revision of highwire module to fetch
         "webroot_rev" => "7.x-1.x-dev",           # revision of webroot module to fetch
       }

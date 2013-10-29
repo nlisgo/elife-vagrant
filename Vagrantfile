@@ -34,17 +34,23 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     override.vm.box = "dummy"
 
+    # Ian
     aws.access_key_id = "AKIAIEZCVFDGHB2QOVVA" 
     aws.secret_access_key = "faYcyTxTWb8vbusQdoSSaDh3StdTeK8J8/al+Rjp"
+    aws.keypair_name = "ianm-working"
+    override.ssh.private_key_path = "~/.ssh/ianm-working.pem"
+
+    # Ruth
+    aws.access_key_id = "AKIAI7RAXI5EZGOQX2OA" 
+    aws.secret_access_key = "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"
+    aws.keypair_name = "ruth"
+    override.ssh.private_key_path = "~/.ssh/ruth.pem"
 
     # You cannot pass any parameter to vagrant. The only way is to use environment variables
     # MY_VAR='my value' vagrant up
     # And use ENV['MY_VAR'] in recipe.
     # aws.access_key_id = ENV['AWS_SECRET'] 
     # aws.secret_access_key = ENV['AWS_KEY']
-
-    aws.keypair_name = "ianm-working"
-    override.ssh.private_key_path = "~/.ssh/ianm-working.pem"
 
     aws.instance_type = "t1.micro"
     aws.security_groups = "default"

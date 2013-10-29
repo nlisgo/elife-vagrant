@@ -14,17 +14,25 @@ case $cmd in
 		rm -rf Cheffile.lock cookbooks tmp
 		;;
 
+	"update")
+		librarian-chef update
+		;;
+
 	"run")
 		vagrant up
 		;;
 
-	"clean")
-		rm -rf Cheffile.lock cookbooks tmp
-		echo Cleaned.
-		;;
-
 	"provision")
 		vagrant provision
+		;;
+
+	"clean")
+		echo Cleaning: destroy default VM...
+		vagrant destroy
+		echo Cleaning: Delete temp files
+		rm -rf Cheffile.lock cookbooks tmp roles
+		mkdir -p roles
+		echo Cleaned.
 		;;
 
 esac

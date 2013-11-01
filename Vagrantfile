@@ -18,21 +18,21 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   # need to add apache to the synced folder via
-  config.vm.synced_folder "./public", "/opt/public", id: "vagrant-root", :owner => "www-data", :group => "www-data"
+  config.vm.synced_folder "./public", "/opt/public", id: "vagrant-root", :owner => "www-data", :group => "www-data", :mount_options => [ "dmode=775", "fmode=664" ]
 
   # this expects the drupal-site-jnl-elife git repository checked out in the same parent folder
-  config.vm.synced_folder "../drupal-site-jnl-elife", "/shared/elife_module"
+  config.vm.synced_folder "../drupal-site-jnl-elife", "/shared/elife_module", id: "vagrant-elife", :owner => "www-data", :group => "www-data", :mount_options => [ "dmode=775", "fmode=664" ]
 
 
-  # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "pre64-elife-rb1.9-chef-11"
+# # # # # # # # # # # # # # # # # # 
 
   # Install latest version of Chef
   config.omnibus.chef_version = :latest
 
   config.vm.provider :aws do |aws, override| 
 
-    override.vm.box = "dummy"
+    # Every Vagrant virtual environment requires a box to build off of.
+    #config.vm.box = "dummy"
 
     # Ian
     aws.access_key_id = "AKIAIEZCVFDGHB2QOVVA" 
@@ -46,14 +46,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     aws.keypair_name = "ruth"
     override.ssh.private_key_path = "~/.ssh/ruth.pem"
 
-    # You cannot pass any parameter to vagrant. The only way is to use environment variables
-    # MY_VAR='my value' vagrant up
-    # And use ENV['MY_VAR'] in recipe.
-    # aws.access_key_id = ENV['AWS_SECRET'] 
-    # aws.secret_access_key = ENV['AWS_KEY']
+    # You cannot pass any parameters to vagrant. The only way is to use
+    # environment variables, eg:
+    #    MY_VAR='my value' vagrant up
+    #    And use ENV['MY_VAR'] in recipe.
+    # For example:
+    #   aws.access_key_id = ENV['AWS_SECRET'] 
+    #   aws.secret_access_key = ENV['AWS_KEY']
 
     aws.instance_type = "t1.micro"
-    aws.security_groups = "default"
+    aws.security_groups = [ "default" ]
 
     aws.ami = "ami-de0d9eb7" 
     aws.region = "us-east-1" 
@@ -63,25 +65,36 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       'Name' => 'Elife Vagrant',
      }
 
-  end 
+  end   # of aws provider
+
+# # # # # # # # # # # # # # # # # # 
+
+
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
-  # Example for VirtualBox:
   #
   config.vm.provider :virtualbox do |vb|
+
+    # Every Vagrant virtual environment requires a box to build off of.
+    config.vm.box = "pre64-elife-rb1.9-chef-11"
+
     # Boot in headless mode
     vb.gui = false
+
     #
     # # Use VBoxManage to customize the VM. For example to change memory:
     vb.customize ["modifyvm", :id, "--memory", "1024"]
     vb.customize ["modifyvm", :id, "--vram", "12"]
-  end
+  
+    # Create a private network, which allows host-only access to the machine
+    # using a specific IP.
+    # new syntax is now
+    config.vm.network :private_network, ip: "192.168.33.44"
 
-  # Create a private network, which allows host-only access to the machine
-  # using a specific IP.
-  # new syntax is now
-  config.vm.network :private_network, ip: "192.168.33.44"
+  end    # of vbox provider
+
+# # # # # # # # # # # # # # # # # # 
 
   config.vm.provision "chef_solo" do |chef|
 
@@ -90,7 +103,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.roles_path = ["roles"]
 
     # Set this to :debug if you want more debugging info, else :info or :warn
-    chef.log_level = :info
+    chef.log_level = :debug
 
     # this installs most of the infrastrucutre required to support a drupal instance
     chef.add_recipe "apt" # add this so we have updated packages available
@@ -136,17 +149,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       }
     }   
 
-  end
-
-  # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine. In the example below,
-  # accessing "localhost:8080" will access port 80 on the guest machine.
-  # config.vm.network :forwarded_port, guest: 80, host: 8080
-
-
-  # Create a public network, which generally matched to bridged network.
-  # Bridged networks make the machine appear as another physical device on
-  # your network.
-  # config.vm.network :public_network
+  end   # of chef_solo provision
 
 end

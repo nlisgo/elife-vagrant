@@ -26,13 +26,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 # # # # # # # # # # # # # # # # # # 
 
-  # Install latest version of Chef
-  config.omnibus.chef_version = :latest
+  # Install latest version of Chef - needed for AWS
+  #config.omnibus.chef_version = :latest
+
+  # Every Vagrant virtual environment requires a box to build off of.
+  # Parameter is global: select dummy for AWS, pre64 for Virtualbox
+  #config.vm.box = "dummy"
+  #config.vm.box = "pre64-elife-rb1.9-chef-11"
 
   config.vm.provider :aws do |aws, override| 
-
-    # Every Vagrant virtual environment requires a box to build off of.
-    #config.vm.box = "dummy"
 
     # Ian
     aws.access_key_id = "AKIAIEZCVFDGHB2QOVVA" 
@@ -76,9 +78,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #
   config.vm.provider :virtualbox do |vb|
 
-    # Every Vagrant virtual environment requires a box to build off of.
-    config.vm.box = "pre64-elife-rb1.9-chef-11"
-
     # Boot in headless mode
     vb.gui = false
 
@@ -87,12 +86,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.customize ["modifyvm", :id, "--memory", "1024"]
     vb.customize ["modifyvm", :id, "--vram", "12"]
   
-    # Create a private network, which allows host-only access to the machine
-    # using a specific IP.
-    # new syntax is now
-    config.vm.network :private_network, ip: "192.168.33.44"
-
   end    # of vbox provider
+
+  # Create a private network, which allows host-only access to the machine
+  # using a specific IP.
+  # new syntax is now
+  config.vm.network :private_network, ip: "192.168.33.44"
 
 # # # # # # # # # # # # # # # # # # 
 
@@ -117,7 +116,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.add_recipe "drupal-site-jnl-elife-cookbook::default"
 
     # Pulled out so it's obvious: disable content delivery as it won't work for non-live sites
-    chef.add_recipe "drupal-site-jnl-elife-cookbook::disable-cdn"
+    # apache restart needed before this works and restarts are delayed by default. Change
+    # the web_app rule to change this behaviour:
+    # chef.add_recipe "drupal-site-jnl-elife-cookbook::disable-cdn"
 
     # we set these attrbutes, and in particular the mysql root passwors
     # as in chef solo we don't have access to a chef server

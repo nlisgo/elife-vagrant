@@ -25,13 +25,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Every Vagrant virtual environment requires a box to build off of.
   # This setting is global to the file; select dummy for AWS otherwise select pre64..
-  #config.vm.box = "pre64-elife-rb1.9-chef-11"
-  config.vm.box = "dummy"
+  config.vm.box = "pre64-elife-rb1.9-chef-11"
+  #config.vm.box = "dummy"
 
 # # # # # # # # # # # # # # # # # # 
 
   # Install latest version of Chef
-  config.omnibus.chef_version = :latest
+  #config.omnibus.chef_version = :latest
 
   config.vm.provider :aws do |aws, override| 
 
@@ -103,12 +103,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     chef.add_recipe "elife-drupal-cookbook::drupal_lamp_dev"
 
     # site and SQL files for our Drupal site
-    #chef.add_recipe "drupal-site-jnl-elife-cookbook::default"
+    chef.add_recipe "drupal-site-jnl-elife-cookbook::default"
 
     # Pulled out so it's obvious: disable content delivery as it won't work for non-live sites
     # apache restart needed before this works and restarts are delayed by default. Change
     # the web_app rule to change this behaviour:
-    # chef.add_recipe "drupal-site-jnl-elife-cookbook::disable-cdn"
+    chef.add_recipe "drupal-site-jnl-elife-cookbook::disable-cdn"
 
     # we set these attrbutes, and in particular the mysql root password
     # as in chef solo we don't have access to a chef server

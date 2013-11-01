@@ -27,11 +27,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 # # # # # # # # # # # # # # # # # # 
 
   # Install latest version of Chef - needed for AWS
-  #config.omnibus.chef_version = :latest
+  config.omnibus.chef_version = :latest
 
   # Every Vagrant virtual environment requires a box to build off of.
   # Parameter is global: select dummy for AWS, pre64 for Virtualbox
-  #config.vm.box = "dummy"
+  config.vm.box = "dummy"
   #config.vm.box = "pre64-elife-rb1.9-chef-11"
 
   config.vm.provider :aws do |aws, override| 

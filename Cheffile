@@ -21,7 +21,7 @@ cookbook 'openvpn'
 #        :git=> 'git@github.com:opscode-cookbooks/openvpn.git',
 
 cookbook 'apache2',
-        :git=> 'git@github.com:elifesciences/apache2.git',
+        :git=> 'git@github.com:elifesciences/apache2.git'
 
 # elife drupal module git repos, and highwire drupal base site
 cookbook 'drupal-site-jnl-elife-cookbook',

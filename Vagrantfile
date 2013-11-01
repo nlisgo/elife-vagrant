@@ -26,7 +26,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Every Vagrant virtual environment requires a box to build off of.
   # This setting is global to the file; select dummy for AWS otherwise select pre64..
   #config.vm.box = "pre64-elife-rb1.9-chef-11"
-  #config.vm.box = "dummy"
+  config.vm.box = "dummy"
 
 # # # # # # # # # # # # # # # # # # 
 

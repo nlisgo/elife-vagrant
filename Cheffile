@@ -6,7 +6,6 @@ site 'http://community.opscode.com/api/v1'
 # basics for drupal
 cookbook 'apt'
 cookbook 'git'
-cookbook 'apache2'
 cookbook 'build-essential'
 cookbook 'memcached'
 cookbook 'mysql'

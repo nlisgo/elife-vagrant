@@ -84,9 +84,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # If true, then any SSH connections made will enable agent forwarding.
   config.ssh.forward_agent = true # default: false
 
-  config.vm.synced_folder public_dir, "/opt/public", id: "vagrant-root", :owner => "www-data", :group => "www-data", :mount_options => [ "dmode=775", "fmode=664" ]
+  config.vm.synced_folder public_dir, "/opt/public", id: "vagrant-root", nfs: true
   # this expects the drupal-site-jnl-elife git repository checked out in the same parent folder
-  config.vm.synced_folder "../drupal-site-jnl-elife", "/shared/elife_module", id: "vagrant-elife", :owner => "www-data", :group => "www-data", :mount_options => [ "dmode=775", "fmode=664" ]
+  config.vm.synced_folder "../drupal-site-jnl-elife", "/shared/elife_module", id: "vagrant-elife", nfs: true
 
   config.vm.box = VM_BOX
 
